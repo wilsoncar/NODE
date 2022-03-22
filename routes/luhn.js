@@ -1,25 +1,27 @@
 const express = require('express');
 
-function luhnApi(app) {
-    const router = express.Router();
-    app.use("/luhn", router);
 
-    router.get("/", async function(req, res, next){
-        try {
-          res.status(200).json({
-              isValid: isValidNumberCreditCard()
-          });
-        } catch (error) {
-            next(err);
-        }
+function luhnApi(app) {
+
+    const router = express.Router();
+    
+    app.use("/luhn", router);
+    
+    router.post("/", (req, res)=>{
+        let {credit} = req.body;
+        console.log(credit);
+        res.status(200).json({
+            isValid: isValidNumberCreditCard(credit)
+        })
+    
     });
 
     function split_numbers(n) {
         return (n + '').split('').map((i) => { return Number(i); });
     }
 
-    function luhn() {
-        const numberCreditCard = 79927398713;
+    function luhn(credit) {
+        const numberCreditCard = credit;
         const number_splitted = split_numbers(numberCreditCard);
         const number_reversed = number_splitted.reverse();
 
@@ -55,8 +57,8 @@ function luhnApi(app) {
         return plus;
     }
 
-    function isValidNumberCreditCard() {
-        const results = luhn();
+    function isValidNumberCreditCard(credit) {
+        const results = luhn(credit);
         let isValid = false;
         let plus = 0;
         results.forEach(element => {

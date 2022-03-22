@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const {config} = require('./config/index');
 const controllers = require('./routes/index');
-
+app.use(express.json());
 controllers(app);
 
 
