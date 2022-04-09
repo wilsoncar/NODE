@@ -1,5 +1,6 @@
 const express = require('express');
 const comprasService = require('../services/compras');
+const Compras_Interface = require('../interfaces/compras');
 
 function comprasApi(app) {
     const router = express.Router();
@@ -20,10 +21,15 @@ function comprasApi(app) {
     });
 
     router.put("/", async function(req, res, next){
-        const { body: nombre, precio, cantidad, peso} = req;
+        const { body } = req;
         try {
+            const objectCompras = Compras_Interface;
+            objectCompras.nombre = body.nombre;
+            objectCompras.precio = body.precio;
+            objectCompras.cantidad = body.cantidad;
+            objectCompras.peso = body.peso;
             if (req=! null) {
-                const comprasCreated = await compraService.createCompras(nombre, precio, cantidad, peso);
+                const comprasCreated = await compraService.createCompras(objectCompras);
                 res.status(200).json({
                     data: comprasCreated,
                     message: 'compra created successfully'

@@ -8,12 +8,12 @@ class LuhnService {
     }
 
     async createLuhn(n) {
-        const luhnCreated = await this.mongoDB.createLuhn(this.collection, n);
+        const luhnCreated = await this.mongoDB.create(this.collection, n);
         return luhnCreated;
     }
 
     async getLuhn(n) {
-        const luhn = await this.mongoDB.getLuhn(this.collection, n);
+        const luhn = await this.mongoDB.get(this.collection, n);
         console.log('luhn form service:', luhn);
         return luhn || {};
     }
