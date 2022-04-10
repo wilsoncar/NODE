@@ -17,6 +17,18 @@ class LuhnService {
         console.log('luhn form service:', luhn);
         return luhn || {};
     }
+
+    async updateLuhn(data) {
+        const luhnUpdated = await this.mongoDB.updateLuhn(this.collection, data.id, data.data);
+        console.log('luhn Updated', luhnUpdated);
+        return luhnUpdated || {};
+    }
+
+    async deleteLuhn(id) {
+        const luhnDeleted = await this.mongoDB.delete(this.collection, id);
+        console.log('luhn deleted', luhnDeleted);
+        return luhnDeleted || {};
+    }
 }
 
 module.exports = LuhnService;

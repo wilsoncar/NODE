@@ -42,9 +42,32 @@ function luhnApi(app) {
     router.post("/", async function(req, res, next){
         const { body: number } = req;
         console.log('req', number);
+        const isValid = await isValidNumberCreditCard(number.data)
         try {
+            if (isValid) {
+                const luhnUpdate = await luhnService.updateLuhn(number);
+                res.status(200).json({
+                    data: luhnUpdate,
+                    message: 'luhn successfully updated'
+                });
+            } else {
+                res.status(200).json({
+                    message: 'creditcard is invalid'
+                });
+            }
+        } catch (err) {
+            next(err);
+        }
+    });
+
+    router.delete("/", async function(req, res, next){
+        const { body: luhn } = req;
+        console.log('luhn to delete', luhn)
+        try {
+            const luhnDelete = await luhnService.deleteLuhn(luhn.id);
             res.status(200).json({
-                isValid: await isValidNumberCreditCard(number)
+                luhn: luhnDelete,
+                message: "luhn succesfully Deleted"
             });
         } catch (err) {
             next(err);
