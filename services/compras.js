@@ -14,7 +14,7 @@ class comprasService {
 
     async getCompras(n) {
         const compra = await this.mongoDB.get(this.collection, n);
-        console.log('\ncompra from services :', compra);
+        console.log('compra from services :', compra);
         return compra || {};
     }
 
